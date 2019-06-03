@@ -11,7 +11,6 @@ class GameObject extends HTMLElement {
     set Y(value) { this.y = value; }
     get width() { return this.clientWidth; }
     get height() { return this.clientHeight; }
-    move() { }
     hasCollision(rect) {
         return (this.x < rect.x + rect.width &&
             this.x + this.width > rect.x &&
@@ -24,6 +23,8 @@ class Wheel extends GameObject {
         super(parent);
         this.style.transform = `translate(${offsetCarX}px, 30px)`;
     }
+    move() { }
+    onCollision(gameObject) { }
 }
 window.customElements.define("wheel-component", Wheel);
 class Car extends GameObject {
@@ -73,6 +74,11 @@ class Car extends GameObject {
     draw() {
         this.style.transform = `translate(${this.X}px,${this.Y}px)`;
     }
+    onCollision(gameObject) {
+        if (gameObject instanceof Rock) {
+            this.crash();
+        }
+    }
 }
 window.customElements.define("car-component", Car);
 class Game {
@@ -103,15 +109,13 @@ class Game {
         this.request = requestAnimationFrame(() => this.gameLoop());
     }
     checkCollision() {
-        for (let gameObject of this.gameObjects) {
-            if (gameObject instanceof Car) {
-                var car = gameObject;
-                for (let gameObject2 of this.gameObjects) {
-                    if (gameObject2 instanceof Rock) {
-                        var rock = gameObject2;
+        for (let car of this.gameObjects) {
+            if (car instanceof Car) {
+                for (let rock of this.gameObjects) {
+                    if (rock instanceof Rock) {
                         if (car.hasCollision(rock)) {
-                            rock.crashed(car.Speed);
-                            car.crash();
+                            car.onCollision(rock);
+                            rock.onCollision(car);
                             this.gameOver();
                         }
                     }
@@ -162,6 +166,11 @@ class Rock extends GameObject {
         this.g = 9.81;
         this.speed = carSpeed;
         this.rotationSpeed = 5;
+    }
+    onCollision(gameObject) {
+        if (gameObject instanceof Car) {
+            this.crashed(gameObject.Speed);
+        }
     }
 }
 window.customElements.define("rock-component", Rock);

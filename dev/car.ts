@@ -66,6 +66,12 @@ class Car extends GameObject {
     private draw() : void {
         this.style.transform =`translate(${this.X}px,${this.Y}px)`
     }
+
+    public onCollision(gameObject : GameObject) {
+        if (gameObject instanceof Rock) {
+            this.crash()
+        }
+    }
 }
 
 window.customElements.define("car-component", Car)

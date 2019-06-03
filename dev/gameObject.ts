@@ -1,4 +1,4 @@
-class GameObject extends HTMLElement{
+abstract class GameObject extends HTMLElement{
 
     // Fields
     private x : number = 0
@@ -23,12 +23,14 @@ class GameObject extends HTMLElement{
         parent.appendChild(this)
     }
     
-    public move() : void { }
-
+    
     public hasCollision(rect : GameObject) : boolean {
         return (this.x < rect.x + rect.width &&
-                this.x + this.width > rect.x &&
-                this.y < rect.y + rect.height &&
-                this.y + this.height > rect.y)
-    }
+            this.x + this.width > rect.x &&
+            this.y < rect.y + rect.height &&
+            this.y + this.height > rect.y)
+        }
+        
+    abstract move() : void
+    abstract onCollision(gameObject : GameObject) : void
 }

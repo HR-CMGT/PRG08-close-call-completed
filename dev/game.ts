@@ -42,16 +42,15 @@ class Game {
     }
 
     private checkCollision() {
-        for(let gameObject of this.gameObjects) {
-            if (gameObject instanceof Car) {
-                var car = gameObject as Car 
-                for(let gameObject2 of this.gameObjects) {
-                    if (gameObject2 instanceof Rock) {
-                        var rock = gameObject2 as Rock
+        for(let car of this.gameObjects) {
+            if (car instanceof Car) {
+                
+                for(let rock of this.gameObjects) {
+                    if (rock instanceof Rock) {
 
                         if(car.hasCollision(rock)) {
-                            rock.crashed(car.Speed)
-                            car.crash()
+                            car.onCollision(rock)
+                            rock.onCollision(car)
                             this.gameOver()
                         }
                     }
