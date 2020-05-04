@@ -1,20 +1,26 @@
-# PRG08-Week1-oefening2
+# PRG08 Week 2 Polymorphism
 
 ## Close Call
-
-### Project opzetten
-
-- Bekijk de UML
-- Vul het project aan op punten die niet gelijk zijn aan de UML
-
-![UML](closecall.png?raw=true "UML")
+![alt text](close-call.png "Close Call")
 
 ### Gameplay
 
-- De auto komt aanrijden van links over het plateau. De snelheid is random.
-- Zodra je op een toets drukt begint de auto met afremmen. 
-- Als de auto het rotsblok raakt, stort het rotsblok omlaag. Je score is 0.
+- <a href="https://hr-cmgt.github.io/PRG08-close-call-completed/" target="_blank">Close call voorbeeld</a>
+- De taxi's komt aanrijden van links naar rechts over het plateau. De snelheid is random.
+- Zodra je op de spatie drukt begint de auto met afremmen. 
+- Als de auto het rotsblok raakt, stort het rotsblok omlaag. Je bent game over.
 - Als je voor het rotsblok tot stilstand komt dan is je score hoger naar mate je dichter bij het blok tot stilstand bent gekomen.
+
+### UML
+![alt text](UML-close-call.png "Close Call")
+
+Hierboven zie je de UML van de uiteindelijke uitwerking. Je ziet dat een **abstract** class GameObject (schuingedrukt) is toegevoegd. In deze class is een abstract functie onCollision toegevoegd. We dwingen af dat de child deze functie moet hebben EN invulling moet geven aan de functie. 
+
+Bij een normale class zou er een  lege functie (onCollision) aangemaakt kunnen worden. Maar de kans bestaat dat de child geen invulling geeft en dan gebeurt er niks. Ook helpt je IDE niet met het aanmaken van de method in de child class
+
+### Opdracht
+- Bouw de game volgens de hierboven getoonde UML. 
+- Zet de game online (github pages) en lever de link in op Teams.
 
 ### Tips
 
@@ -25,7 +31,6 @@
 - Als je aan car een verwijzing naar game meegeeft, dan kan car ook functies van game aanroepen, zoals game over.
 - De speed van de auto bepaalt hoe veel de auto verplaatst per loop.
 - De rots heeft een snelheid van 0, maar die wordt verhoogd als de auto de rots raakt.
-- De rots staat op x 335, dus als de x van de auto (plus de breedte) 335 is, dan raakt de auto de rots.
 - Als de car zijn eigen speed vermenigvuldigt met 0.9 bereik je een "afremmend" effect: `this.speed *= 0.9`.
 - De auto heeft twee Wheels. Als je de `<wheel>` elementen in het `<car>` element plaatst, in plaats van in `<container>`, dan bewegen ze vanzelf mee met de car.
 ```

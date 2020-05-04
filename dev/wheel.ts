@@ -11,4 +11,4 @@ class Wheel extends GameObject{
     onCollision(gameObject: GameObject): void {}
 }
 
-window.customElements.define("wheel-component", Wheel)
+window.customElements.define("wheel-component", Wheel as any)

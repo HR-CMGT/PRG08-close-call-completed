@@ -6,18 +6,20 @@ class Car extends GameObject {
     private speed   : number    = Math.random() * 2 + 1
     private braking : boolean
     private stopped : boolean = false
+    private game    : Game
 
     // Properties
     public get Speed() : number { return this.speed }
 
-    constructor(yIndex : number) {
+    constructor(yIndex : number, game : Game) {
         super()
 
-        this.X = 0
-        this.Y = (70 * yIndex) + 80
+        this.game   = game
+        this.X      = 0
+        this.Y      = (70 * yIndex) + 80
         
-        let frontWheel  = new Wheel(this, 105)
-        let rearWheel   = new Wheel(this, 20)
+        new Wheel(this, 105)    // front wheel
+        new Wheel(this, 20)     // rear wheel 
 
         // hier een keypress event listener toevoegen. een keypress zorgt dat braking true wordt
         document.addEventListener("keydown", (e : KeyboardEvent) => this.handleKeyDown(e))
@@ -46,11 +48,11 @@ class Car extends GameObject {
         
         if(this.speed == 0 && this.braking && !this.stopped) {
             this.changeColor(80) //green
-            Game.Instance.addScore(this.X)
+            this.game.addScore(this.X)
             this.braking = false
             this.stopped = true
         }
-        this.draw()
+        super.move()
     } 
 
     public crash() {
@@ -63,15 +65,14 @@ class Car extends GameObject {
         this.style.filter = `hue-rotate(${deg}deg)`
     }
 
-    private draw() : void {
-        this.style.transform =`translate(${this.X}px,${this.Y}px)`
-    }
-
+    // callback method (hook method)
     public onCollision(gameObject : GameObject) {
+        // controleren of gameObject een Rock is
+        // Je wilt geen auto's met auto's vergelijken
         if (gameObject instanceof Rock) {
             this.crash()
         }
     }
 }
 
-window.customElements.define("car-component", Car)
+window.customElements.define("car-component", Car as any)

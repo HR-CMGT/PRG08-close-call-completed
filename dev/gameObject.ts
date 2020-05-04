@@ -23,7 +23,6 @@ abstract class GameObject extends HTMLElement{
         parent.appendChild(this)
     }
     
-    
     public hasCollision(rect : GameObject) : boolean {
         return (this.x < rect.x + rect.width &&
             this.x + this.width > rect.x &&
@@ -31,6 +30,24 @@ abstract class GameObject extends HTMLElement{
             this.y + this.height > rect.y)
         }
         
-    abstract move() : void
+    public move() {
+        this.draw()
+    }
+
+    protected draw() {
+        this.style.transform =`translate(${this.X}px,${this.Y}px)`
+    }
+    
+    // Hier zie je de abstracte functie onCollision
+    // We dwingen af dat de child deze functie moet hebben EN
+    // invulling moet geven aan de functie
+    // Bij een normale class kan je hier een lege functie (onCollision) aanmaken
+    // Maar de kans bestaat dat de child geen invulling geeft en dan 
+    // gebeurt er niks. Ook helpt je IDE niet met het aanmaken van de method
+
+    /**
+     * Will be executed when collision has occured with a specific object
+     * @param gameObject the colliding object
+     */
     abstract onCollision(gameObject : GameObject) : void
 }

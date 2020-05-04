@@ -10,7 +10,7 @@ class Rock extends GameObject {
     // Properties
     public set Speed(s : number) { this.speed = s }     
 
-    constructor(index) {
+    constructor(index : number) {
         super()
         this.X = Math.random() * 400 + 400
         this.Y = (70 * index) + 80
@@ -30,8 +30,7 @@ class Rock extends GameObject {
             this.rotationSpeed = 0
         }
 
-        //teken de div op de juiste positie
-        this.style.transform = `translate(${this.X}px, ${this.Y}px) rotate(${this.rotation}deg)`
+        super.move()
     }
 
     public crashed(carSpeed : number) {
@@ -41,10 +40,12 @@ class Rock extends GameObject {
     }
 
     public onCollision(gameObject : GameObject) {
+        // controleren of gameObject een Car is
+        // Je wilt geen rotsen met rotsen vergelijken
         if (gameObject instanceof Car) {
             this.crashed(gameObject.Speed)
         }
     }
 }
 
-window.customElements.define("rock-component", Rock)
+window.customElements.define("rock-component", Rock as any)

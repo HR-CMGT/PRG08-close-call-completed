@@ -1,22 +1,13 @@
 /// <reference path="car.ts"/>
 
 class Game {
-    // Static fields
-    private static instance : Game
-
     // Fields
     private gameObjects : GameObject[]  = []
     private score       : number        = 0
     private request     : number        = 0
     private gameover    : boolean       = false
 
-    // Static Properties
-    public static get Instance() : Game {
-        if(!Game.instance) Game.instance = new Game()
-        return Game.instance
-    }
-
-    private constructor() {
+    constructor() {
         for(let i = 0 ; i < 6 ; i++) {
             this.addCarWithRock(i)
         }
@@ -25,7 +16,7 @@ class Game {
     }
 
     private addCarWithRock(index : number) {
-        this.gameObjects.push(new Car(index))
+        this.gameObjects.push(new Car(index, this))
         this.gameObjects.push(new Rock(index))
 
     }
@@ -42,20 +33,15 @@ class Game {
     }
 
     private checkCollision() {
-        for(let car of this.gameObjects) {
-            if (car instanceof Car) {
+        for(let object1 of this.gameObjects) {
                 
-                for(let rock of this.gameObjects) {
-                    if (rock instanceof Rock) {
+            for(let object2 of this.gameObjects) {
 
-                        if(car.hasCollision(rock)) {
-                            car.onCollision(rock)
-                            rock.onCollision(car)
-                            this.gameOver()
-                        }
-                    }
-                    
+                if(object1.hasCollision(object2)) {
+                    object1.onCollision(object2)
+                    this.gameOver()
                 }
+                
             }
         }
     }
@@ -79,4 +65,4 @@ class Game {
 } 
 
 // load
-window.addEventListener("load", () => Game.Instance )
+window.addEventListener("load", () => new Game())
