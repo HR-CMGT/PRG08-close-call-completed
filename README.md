@@ -14,7 +14,7 @@
 ### UML
 ![alt text](UML-close-call.png "Close Call")
 
-Hierboven zie je de UML van de uiteindelijke uitwerking. Je ziet dat een **abstract** class GameObject (schuingedrukt) is toegevoegd. In deze class is een abstract functie onCollision toegevoegd. We dwingen af dat de child deze functie moet hebben EN invulling moet geven aan de functie. 
+Hierboven zie je de UML van de uiteindelijke uitwerking. Je ziet dat een *abstract* class GameObject (schuingedrukt) is toegevoegd. In deze class is een abstract functie onCollision toegevoegd. We dwingen af dat de child deze functie moet hebben EN invulling moet geven aan de functie. 
 
 Bij een normale class zou er een  lege functie (onCollision) aangemaakt kunnen worden. Maar de kans bestaat dat de child geen invulling geeft en dan gebeurt er niks. Ook helpt je IDE niet met het aanmaken van de method in de child class
 
@@ -24,6 +24,39 @@ Bij een normale class zou er een  lege functie (onCollision) aangemaakt kunnen w
 
 ### Tips
 
+#### Polymorphism
+
+Door polymorfisme is het mogelijk om het datatype van een child class te hernoemen naar die van zijn parent. Dit kan toegepast worden in een collectie (met de parent als datatype). Vervolgens kan elke type child toegevoegd worden aan de collectie. 
+
+```
+let vehicles : Vehicle[] = []
+
+    vehicles.add(new Car())
+    vehicles.add(new Truck())
+```
+
+Deze collectie is te doorlopen met een loop, waarna elk object uniform aan te spreken is. Voorwaarde is dat de parent de betreffende functie bevat. Door *overriding* wordt de functionaliteit van de child uitgevoerd.
+
+```
+for(let vehicle of vehicles) {
+    vehicle.drive()
+}
+```
+
+#### Type Guard
+
+Wil je van een object weten (die hernoemt is naar zijn parent) wat zijn oorspronkelijke datatype is (toen deze werd aangemaakt)? Dan kun je gebruik maken van een *Type Guard*. 
+In de bovenstaande code kan je dat bijvoorbeeld in de loop doen.
+```
+for(let vehicle of vehicles) {
+    if(vehicle instanceof Car) {
+        // Dit is een auto
+        vehicle.brake() // Dit kan alleen een auto, een Truck kan dit niet.
+    }
+}
+```
+
+#### Hoe het spel is opgezet
 - De html heeft een `<container>` element waarin alle game elementen geplaatst worden.
 - Met CSS plaats je de container in het midden van het scherm.
 - Maak eerst de gameobject class.
@@ -44,7 +77,7 @@ Bij een normale class zou er een  lege functie (onCollision) aangemaakt kunnen w
 </body>
 ```
 
-### Keyboard Input
+#### Keyboard Input
 ```
 constructor(){
    window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyDown(e));
@@ -55,7 +88,9 @@ private onKeyDown(event:KeyboardEvent):void {
 ```
 
 ## Lezen
-- [Game Loop, Collision detection, Keyboard input](https://github.com/HR-CMGT/PRG04-Week3-examples)
+- [Game Loop](https://github.com/HR-CMGT/Typescript/blob/master/snippets/game.md)
+- [Collision detection](https://github.com/HR-CMGT/Typescript/blob/master/snippets/collision.md)
+- [Keyboard input](https://github.com/HR-CMGT/Typescript/blob/master/snippets/movement.md)
 - [Inheritance in Typescript](https://www.typescriptlang.org/docs/handbook/classes.html)
 - [Interface in Typescript](https://www.typescriptlang.org/docs/handbook/interfaces.html)
 - [Typescript Getting Started](https://basarat.gitbooks.io/typescript/content/docs/getting-started.html)

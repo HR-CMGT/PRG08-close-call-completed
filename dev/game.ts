@@ -1,13 +1,14 @@
-/// <reference path="car.ts"/>
-
 class Game {
-    // Fields
-    private gameObjects : GameObject[]  = []
-    private score       : number        = 0
-    private request     : number        = 0
-    private gameover    : boolean       = false
 
-    constructor() {
+    // Fields
+    private gameobjects : GameObject[] = []
+
+    private score   : number    = 0
+    private request : number    = 0
+    private gameover: boolean   = false
+
+
+    constructor() { 
         for(let i = 0 ; i < 6 ; i++) {
             this.addCarWithRock(i)
         }
@@ -15,54 +16,52 @@ class Game {
         this.gameLoop()
     }
 
-    private addCarWithRock(index : number) {
-        this.gameObjects.push(new Car(index, this))
-        this.gameObjects.push(new Rock(index))
-
+    private addCarWithRock(index : number) : void {
+        this.gameobjects.push(new Car(index, this))
+        this.gameobjects.push(new Rock(index))
     }
 
-    private gameLoop(){
-
-        for(let gameObject of this.gameObjects){
+    private gameLoop() : void {
+        for (const gameObject of this.gameobjects) {
             gameObject.move()
         }
 
         this.checkCollision()
         
+
         this.request = requestAnimationFrame(() => this.gameLoop())
     }
 
-    private checkCollision() {
-        for(let object1 of this.gameObjects) {
-                
-            for(let object2 of this.gameObjects) {
-
-                if(object1.hasCollision(object2)) {
-                    object1.onCollision(object2)
-                    this.gameOver()
+    private checkCollision() : void {
+        for (const gameobject1 of this.gameobjects) {
+            for (const gameobject2 of this.gameobjects) {
+                if(gameobject1.hasCollision(gameobject2)) {
+                    gameobject1.onCollision(gameobject2)
                 }
-                
             }
         }
     }
 
-    private gameOver() : void{
+    public gameOver() : void {
+        console.log("Game over")
         this.gameover = true
         document.getElementById("score").innerHTML = "Game Over"
         cancelAnimationFrame(this.request)
     }
 
-    public addScore(x : number){
+    public addScore(x : number) : void {
         if(!this.gameover) {
             this.score += Math.floor(x)
             this.draw()
         }
     }
 
-    private draw() {
+    private draw() : void {
         document.getElementById("score").innerHTML = "Score : "+this.score
     }
+
+    
 } 
 
 // load
-window.addEventListener("load", () => new Game())
+window.addEventListener("load", () => new Game() )
